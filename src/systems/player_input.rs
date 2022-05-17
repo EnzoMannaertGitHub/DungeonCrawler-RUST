@@ -55,7 +55,6 @@ pub fn player_input(
                 .find_map(|(entity, pos)| Some((*entity, *pos + delta)) )
                 .unwrap();
 
-        let mut did_something = false;
         if delta.x !=0 || delta.y != 0 {
 
         let mut hit_something = false;
@@ -66,7 +65,6 @@ pub fn player_input(
             })
             .for_each(|(entity, _) | {
                 hit_something = true;
-                did_something = true;
 
                 commands
                     .push(((), WantsToAttack{
@@ -76,7 +74,6 @@ pub fn player_input(
             });
 
             if !hit_something {
-                did_something = true;
                 commands
                     .push(((), WantsToMove{
                         entity: player_entity,

@@ -1,6 +1,5 @@
 use std::vec;
 use crate::prelude::*;
-use empty::EmptyArchitect;
 use rooms::RoomsArchitect;
 use automata::CellularAutomataArchitec;
 use drunkard::DrunkardsWalkArchitect;
