@@ -5,13 +5,10 @@ use crate::prelude::*;
 #[read_component(ProvidesHealing)]
 #[write_component(Health)]
 #[read_component(ProvidesDungeonMap)]
-pub fn use_items(
-    ecs: &mut SubWorld,
-    commands: &mut CommandBuffer,
-    #[resource] map: &mut Map
-) {
+pub fn use_items(ecs: &mut SubWorld, commands: &mut CommandBuffer, #[resource] map: &mut Map) {
     let mut healing_to_apply = Vec::<(Entity, i32)>::new();
-    <(Entity, &ActivatedItem)>::query().iter(ecs)
+    <(Entity, &ActivatedItem)>::query()
+        .iter(ecs)
         .for_each(|(entity, activate)| {
             let item = ecs.entry_ref(activate.item);
             if let Ok(item) = item {

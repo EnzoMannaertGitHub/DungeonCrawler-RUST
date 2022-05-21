@@ -3,10 +3,7 @@ use crate::prelude::*;
 #[system]
 #[read_component(Point)]
 #[write_component(FieldOfView)]
-pub fn fov(
-    ecs: &mut SubWorld,
-    #[resource] map: &Map
-) {
+pub fn fov(ecs: &mut SubWorld, #[resource] map: &Map) {
     let mut views = <(&Point, &mut FieldOfView)>::query();
     views
         .iter_mut(ecs)
