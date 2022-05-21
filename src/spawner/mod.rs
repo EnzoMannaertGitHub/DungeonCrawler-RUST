@@ -1,10 +1,6 @@
 mod template;
 
-use std::thread::spawn;
-
 use crate::prelude::*;
-use template::Template;
-
 use self::template::Templates;
 
 pub fn spawn_level(
@@ -26,7 +22,8 @@ pub fn spawn_player(ecs : &mut World, pos : Point) {
                 glyph : to_cp437('@')
             },
             Health{ current: 10, max: 10 },
-            FieldOfView::new(8)
+            FieldOfView::new(8),
+            Damage(1)
         )
     );
 }
