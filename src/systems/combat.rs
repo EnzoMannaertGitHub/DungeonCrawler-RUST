@@ -6,6 +6,8 @@ use crate::prelude::*;
 #[write_component(Health)]
 #[read_component(Damage)]
 #[read_component(Carried)]
+#[read_component(Score)]
+#[write_component(Score)]
 pub fn combat(ecs: &mut SubWorld, commands: &mut CommandBuffer) {
     let mut attackers = <(Entity, &WantsToAttack)>::query();
     let victims : Vec<(Entity, Entity, Entity)> = attackers
@@ -44,6 +46,15 @@ pub fn combat(ecs: &mut SubWorld, commands: &mut CommandBuffer) {
         {
             health.current -= final_damage;
             if health.current < 1 && !is_player {
+                let score = ecs.entry_mut(*victim).unwrap().get_component::<Health>().unwrap().max;
+                
+               if let  Ok(player_score) = ecs
+                .entry_mut(*attacker)
+                .unwrap()
+                .get_component_mut::<Score>() {
+                    player_score.0 += score;
+                }
+
                 commands.remove(*victim);
             }
         }

@@ -137,7 +137,16 @@ impl State {
             "The Amulet of Yala remains unclaimed, and your home town is not saved.");
         ctx.print_color_centered(8, YELLOW, BLACK, 
             "Don't worry, you can always try again with a new hero.");
-        ctx.print_color_centered(9, GREEN, BLACK, "Press 1 to play again.");
+
+            let score = <(Entity, &Score)>::query()
+            .filter(component::<Player>())
+            .iter(&mut self.ecs)
+            .map(|(e, s)| s)
+            .nth(0)
+            .unwrap();
+
+        ctx.print_color_centered(10, RED, BLACK, "Your score");
+        ctx.print_color_centered(11, RED, BLACK, score.0);
 
         if let Some(VirtualKeyCode::Key1) = ctx.key {
             self.reset_game_state();
@@ -151,7 +160,18 @@ impl State {
             "You put on the Amulet of Yala and feel its power course through your veins.");
         ctx.print_color_centered(5, WHITE, BLACK, 
             "Your town is saved, and you can return to your normal life.");
-        ctx.print_color_centered(7, GREEN, BLACK, "Press 1 to play again.");
+
+            let score = <(Entity, &Score)>::query()
+            .filter(component::<Player>())
+            .iter(&mut self.ecs)
+            .map(|(e, s)| s)
+            .nth(0)
+            .unwrap();
+
+        ctx.print_color_centered(7, RED, BLACK, "Your score");
+        ctx.print_color_centered(8, RED, BLACK, score.0);
+
+        ctx.print_color_centered(10, GREEN, BLACK, "Press 1 to play again.");
         if let Some(VirtualKeyCode::Key1) = ctx.key {
             self.reset_game_state();
         }

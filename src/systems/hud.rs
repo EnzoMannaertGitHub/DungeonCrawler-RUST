@@ -6,6 +6,7 @@ use crate::prelude::*;
 #[read_component(Item)]
 #[read_component(Carried)]
 #[read_component(Name)]
+#[read_component(Score)]
 pub fn hud(ecs: &SubWorld) {
     let mut health_query = <&Health>::query().filter(component::<Player>());
     let player_health = health_query
@@ -33,15 +34,20 @@ pub fn hud(ecs: &SubWorld) {
         ColorPair::new(WHITE, RED)
     );
 
-    let (player, map_level) = <(Entity, &Player)>::query()// (1)
+    let (player, map_level, score) = <(Entity, &Player, &Score)>::query()// (1)
         .iter(ecs)
-        .find_map(|(entity, player)| Some((*entity, player.map_level)))
+        .find_map(|(entity, player, score)| Some((*entity, player.map_level, score)))
         .unwrap();
 
     draw_batch.print_color_right(// (2)
-        Point::new(SCREEN_WIDTH*2, 1),
+        Point::new(SCREEN_WIDTH*2, 2),
         format!("Dungeon Level: {}", map_level+1),// (3)
         ColorPair::new(YELLOW, BLACK)
+    );
+    draw_batch.print_color_right(// (2)
+        Point::new(SCREEN_WIDTH*2, 1),
+        format!("Current Score: {}", score.0),// (3)
+        ColorPair::new(YELLOW, GREEN)
     );
 
     let mut item_query = <(&Item, &Name, &Carried)>::query();
