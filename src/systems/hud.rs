@@ -40,14 +40,14 @@ pub fn hud(ecs: &SubWorld) {
         .unwrap();
 
     draw_batch.print_color_right(// (2)
-        Point::new(SCREEN_WIDTH*2, 2),
+        Point::new(SCREEN_WIDTH*2, 1),
         format!("Dungeon Level: {}", map_level+1),// (3)
         ColorPair::new(YELLOW, BLACK)
     );
     draw_batch.print_color_right(// (2)
-        Point::new(SCREEN_WIDTH*2, 1),
+        Point::new(SCREEN_WIDTH*2, 2),
         format!("Current Score: {}", score.0),// (3)
-        ColorPair::new(YELLOW, GREEN)
+        ColorPair::new(RED, BLACK)
     );
 
     let mut item_query = <(&Item, &Name, &Carried)>::query();
