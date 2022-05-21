@@ -7,6 +7,7 @@ mod map_builder;
 mod systems;
 mod camera;
 mod turn_state;
+mod highscores;
 
 mod prelude {
     pub use bracket_lib::prelude::*;
@@ -24,6 +25,7 @@ mod prelude {
     pub use crate::map_builder::*;
     pub use crate::camera::*;
     pub use crate::turn_state::*;
+    pub use crate::highscores::*;
 }
 
 use prelude::*;
@@ -33,7 +35,8 @@ struct State {
     resources: Resources,
     input_systems: Schedule,
     player_systems: Schedule,
-    monster_systems: Schedule
+    monster_systems: Schedule,
+    highscore_set : bool
 }
 
 impl State {
@@ -56,7 +59,8 @@ impl State {
             resources,
             input_systems: build_input_scheduler(),
             player_systems: build_player_scheduler(),
-            monster_systems: build_monster_scheduler()
+            monster_systems: build_monster_scheduler(),
+            highscore_set : false
         }
     }
 
@@ -74,6 +78,7 @@ impl State {
         self.resources.insert(Camera::new(map_builder.player_start));
         self.resources.insert(TurnState::AwaitingInput);
         self.resources.insert(map_builder.theme);
+        self.highscore_set = false;
     }
 
     fn advance_level(&mut self) {
@@ -141,13 +146,19 @@ impl State {
             let score = <(Entity, &Score)>::query()
             .filter(component::<Player>())
             .iter(&mut self.ecs)
-            .map(|(e, s)| s)
+            .map(|(_, s)| s)
             .nth(0)
             .unwrap();
 
         ctx.print_color_centered(10, RED, BLACK, "Your score");
         ctx.print_color_centered(11, RED, BLACK, score.0);
-
+        ctx.print_color_centered(13, YELLOW, BLACK, "Highscores");
+        ctx.print_color_centered(14, YELLOW, BLACK, read_highscores());
+        if !self.highscore_set {
+            add_highscore(score.0);
+            self.highscore_set = true;    
+        }
+        
         if let Some(VirtualKeyCode::Key1) = ctx.key {
             self.reset_game_state();
         }
@@ -164,14 +175,23 @@ impl State {
             let score = <(Entity, &Score)>::query()
             .filter(component::<Player>())
             .iter(&mut self.ecs)
-            .map(|(e, s)| s)
+            .map(|(_, s)| s)
             .nth(0)
             .unwrap();
 
         ctx.print_color_centered(7, RED, BLACK, "Your score");
         ctx.print_color_centered(8, RED, BLACK, score.0);
 
-        ctx.print_color_centered(10, GREEN, BLACK, "Press 1 to play again.");
+        ctx.print_color_centered(10, YELLOW, BLACK, "Highscores");
+        ctx.print_color_centered(11, YELLOW, BLACK, read_highscores());
+
+        if !self.highscore_set {
+            add_highscore(score.0);
+            self.highscore_set = true;    
+        }
+
+        ctx.print_color_centered(13, GREEN, BLACK, "Press 1 to play again.");
+
         if let Some(VirtualKeyCode::Key1) = ctx.key {
             self.reset_game_state();
         }
@@ -213,6 +233,7 @@ impl GameState for State {
 }
 
 fn main() -> BError {
+    read_highscores();
     let context = BTermBuilder::new()
         .with_title("Dungeon Crawler")
         .with_fps_cap(30.0)

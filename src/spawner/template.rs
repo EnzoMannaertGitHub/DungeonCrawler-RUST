@@ -88,7 +88,7 @@ impl Templates {
                 match provides.as_str() {
                     "Healing" => commands.add_component(entity, ProvidesHealing{amount : *n}),
                     "MagicMap" => commands.add_component(entity, ProvidesDungeonMap{}),
-                    _ => {println!("Warning: we don't know hot to rpovide {}", provides)}
+                    _ => {println!("Warning: we don't know how to provide {}", provides)}
                 }
             });
         }
