@@ -8,7 +8,7 @@ use crate::prelude::*;
 #[read_component(Player)]
 pub fn chasing(#[resource] map: &Map, ecs: &SubWorld, commands: &mut CommandBuffer) {
     if !map.can_enemies_move {
-        return
+        return;
     }
 
     let mut movers = <(Entity, &Point, &ChasingPlayer, &FieldOfView)>::query();

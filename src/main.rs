@@ -160,7 +160,7 @@ impl State {
             8,
             YELLOW,
             BLACK,
-            "Don't worry, you can always try again with a new hero.",
+            "Don't worry, you can always try again with a new hero by pressing '1'.",
         );
 
         let score = <(Entity, &Score)>::query()

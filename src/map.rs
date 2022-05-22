@@ -7,7 +7,7 @@ pub enum TileType {
     Wall,
     Floor,
     Exit,
-    Trap
+    Trap,
 }
 
 pub fn map_idx(x: i32, y: i32) -> usize {
@@ -18,7 +18,7 @@ pub struct Map {
     pub tiles: Vec<TileType>,
     pub revealed_tiles: Vec<bool>,
     pub can_enemies_move: bool,
-    pub inactive_count: i32
+    pub inactive_count: i32,
 }
 
 impl Map {
@@ -26,8 +26,8 @@ impl Map {
         Self {
             tiles: vec![TileType::Floor; NUM_TILES],
             revealed_tiles: vec![false; NUM_TILES],
-            can_enemies_move : true,
-            inactive_count: 0
+            can_enemies_move: true,
+            inactive_count: 0,
         }
     }
 

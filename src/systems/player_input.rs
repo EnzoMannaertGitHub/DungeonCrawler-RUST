@@ -23,7 +23,7 @@ pub fn player_input(
             VirtualKeyCode::Left => Point::new(-1, 0),
             VirtualKeyCode::Right => Point::new(1, 0),
             VirtualKeyCode::Up => Point::new(0, -1),
-            VirtualKeyCode::Down =>  Point::new(0, 1),
+            VirtualKeyCode::Down => Point::new(0, 1),
             VirtualKeyCode::G => {
                 // (1)
                 let (player, player_pos) = players // (2)
@@ -80,7 +80,7 @@ pub fn player_input(
                 }
             }
 
-                enemies
+            enemies
                 .iter(ecs)
                 .filter(|(_, pos)| **pos == destination)
                 .for_each(|(entity, _)| {
@@ -104,7 +104,6 @@ pub fn player_input(
                     },
                 ));
             }
-
         };
         *turn_state = TurnState::PlayerTurn;
     }

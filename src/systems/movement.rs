@@ -1,4 +1,3 @@
-
 use crate::prelude::*;
 
 #[system(for_each)]
@@ -33,8 +32,8 @@ pub fn movement(
         if map.tiles[map_idx(want_move.destination.x, want_move.destination.y)] == TileType::Trap {
             if let Ok(mut entry) = ecs.entry_mut(want_move.entity) {
                 if entry.get_component::<Player>().is_ok() {
-                let mut health = entry.get_component_mut::<Health>().unwrap();
-                health.current -= 1;
+                    let mut health = entry.get_component_mut::<Health>().unwrap();
+                    health.current -= 1;
                 }
             }
         }
