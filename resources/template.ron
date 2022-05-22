@@ -14,6 +14,12 @@ Templates(
         ),
         Template(
             entity_type: Item,
+            name : "Freeze Potion", glyph : '$', levels : [ 0, 1, 2 ],
+            provides: Some([ ("Freeze", 0) ]),
+            frequency: 1
+        ),
+        Template(
+            entity_type: Item,
             name : "Rusty Sword", glyph: 's', levels: [ 0, 1, 2 ],
             frequency: 1,
             base_damage: Some(1)

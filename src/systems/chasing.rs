@@ -7,6 +7,10 @@ use crate::prelude::*;
 #[read_component(Health)]
 #[read_component(Player)]
 pub fn chasing(#[resource] map: &Map, ecs: &SubWorld, commands: &mut CommandBuffer) {
+    if !map.can_enemies_move {
+        return
+    }
+
     let mut movers = <(Entity, &Point, &ChasingPlayer, &FieldOfView)>::query();
     let mut positions = <(Entity, &Point, &Health)>::query();
     let mut player = <(&Point, &Player)>::query();
@@ -41,6 +45,7 @@ pub fn chasing(#[resource] map: &Map, ecs: &SubWorld, commands: &mut CommandBuff
                         .unwrap()
                         .get_component::<Player>()
                         .is_ok()
+                        && map.can_enemies_move
                     {
                         commands.push((
                             (),
@@ -53,7 +58,7 @@ pub fn chasing(#[resource] map: &Map, ecs: &SubWorld, commands: &mut CommandBuff
                     attacked = true;
                 });
 
-            if !attacked {
+            if !attacked && map.can_enemies_move {
                 commands.push((
                     (),
                     WantsToMove {

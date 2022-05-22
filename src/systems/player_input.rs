@@ -13,6 +13,7 @@ pub fn player_input(
     commands: &mut CommandBuffer,
     #[resource] key: &Option<VirtualKeyCode>,
     #[resource] turn_state: &mut TurnState,
+    #[resource] map: &mut Map,
 ) {
     let mut players = <(Entity, &Point)>::query().filter(component::<Player>());
     let mut enemies = <(Entity, &Point)>::query().filter(component::<Enemy>());
@@ -22,7 +23,7 @@ pub fn player_input(
             VirtualKeyCode::Left => Point::new(-1, 0),
             VirtualKeyCode::Right => Point::new(1, 0),
             VirtualKeyCode::Up => Point::new(0, -1),
-            VirtualKeyCode::Down => Point::new(0, 1),
+            VirtualKeyCode::Down =>  Point::new(0, 1),
             VirtualKeyCode::G => {
                 // (1)
                 let (player, player_pos) = players // (2)
@@ -70,7 +71,16 @@ pub fn player_input(
 
         if delta.x != 0 || delta.y != 0 {
             let mut hit_something = false;
-            enemies
+            if !map.can_enemies_move {
+                if map.inactive_count >= 2 {
+                    map.inactive_count = 0;
+                    map.can_enemies_move = true;
+                } else {
+                    map.inactive_count += 1;
+                }
+            }
+
+                enemies
                 .iter(ecs)
                 .filter(|(_, pos)| **pos == destination)
                 .for_each(|(entity, _)| {
@@ -94,6 +104,7 @@ pub fn player_input(
                     },
                 ));
             }
+
         };
         *turn_state = TurnState::PlayerTurn;
     }

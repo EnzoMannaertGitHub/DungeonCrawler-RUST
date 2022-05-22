@@ -30,6 +30,9 @@ pub struct ProvidesHealing {
 pub struct ProvidesDungeonMap;
 
 #[derive(Clone, Copy, Debug, PartialEq)]
+pub struct Freeze;
+
+#[derive(Clone, Copy, Debug, PartialEq)]
 pub struct MovingRandomly;
 
 #[derive(Clone, Copy, Debug, PartialEq)]
