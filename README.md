@@ -17,7 +17,7 @@ After finishing the book I had implemented a lot of features:
 - various item types (Dungeon Map, Healing Potion)
 - Different type of dungeon generations (Cellular Automata, Drunken Miner, Basic Rooms)
 - 3 Dungeon floors to explore before completing the game
--HUD
+- HUD
 
 To test my knowledge of Rust I decided to add some features of my own.
 
