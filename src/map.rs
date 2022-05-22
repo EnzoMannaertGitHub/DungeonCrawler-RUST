@@ -7,6 +7,7 @@ pub enum TileType {
     Wall,
     Floor,
     Exit,
+    Trap
 }
 
 pub fn map_idx(x: i32, y: i32) -> usize {

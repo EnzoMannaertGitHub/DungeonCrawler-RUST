@@ -67,6 +67,7 @@ impl DrunkardsWalkArchitect {
         loop {
             let drunk_idx = map.point2d_to_index(drunkard_pos);
             map.tiles[drunk_idx] = TileType::Floor;
+      
 
             match rng.range(0, 4) {
                 0 => drunkard_pos.x -= 1,

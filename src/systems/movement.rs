@@ -1,8 +1,11 @@
+
 use crate::prelude::*;
 
 #[system(for_each)]
 #[read_component(Player)]
 #[read_component(FieldOfView)]
+#[read_component(Health)]
+#[write_component(Health)]
 pub fn movement(
     entity: &Entity,
     want_move: &WantsToMove,
@@ -23,6 +26,15 @@ pub fn movement(
                     fov.visible_tiles.iter().for_each(|pos| {
                         map.revealed_tiles[map_idx(pos.x, pos.y)] = true;
                     })
+                }
+            }
+        }
+    } else {
+        if map.tiles[map_idx(want_move.destination.x, want_move.destination.y)] == TileType::Trap {
+            if let Ok(mut entry) = ecs.entry_mut(want_move.entity) {
+                if entry.get_component::<Player>().is_ok() {
+                let mut health = entry.get_component_mut::<Health>().unwrap();
+                health.current -= 1;
                 }
             }
         }

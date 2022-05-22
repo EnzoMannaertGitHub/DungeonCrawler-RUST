@@ -102,7 +102,13 @@ impl MapBuilder {
                 room.for_each(|p| {
                     if p.x > 0 && p.x < SCREEN_WIDTH && p.y > 0 && p.y < SCREEN_HEIGHT {
                         let idx = map_idx(p.x, p.y);
-                        self.map.tiles[idx] = TileType::Floor;
+
+                        let roll = rng.range(0, 100);
+                        if roll > 1 {
+                            self.map.tiles[idx] = TileType::Floor;
+                        } else {
+                            self.map.tiles[idx] = TileType::Trap;
+                        }
                     }
                 });
                 self.rooms.push(room)
